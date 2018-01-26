@@ -1,3 +1,0 @@
-- Emailed client to try to arrange meeting for 1pm. No response, will try to arrange meeting for Friday Jan 19th instead
-- Met as a team to discuss our existing understanding of what the project entails and to discuss what questions we need to ask of the client to determine the project requirements
-- Setup private git repo and unity project
