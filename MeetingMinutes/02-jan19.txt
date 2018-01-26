@@ -1,2 +1,36 @@
 - Initial meeting with Elena to go over the project details and gather requirements
-- Notes are in [google doc](https://docs.google.com/document/d/12Qremb0pY0i25q4s4Q3y8yKiD1WLneDYAiFpmUmLRVM/edit)
+- Notes:
+
+Kiosk style kinect based continuously running system for presenting a “happy dance” and determining how accurate the users poses are. 
+
+Main goal is to inform visitors about the fact that behaviour influences emotions.
+Measuring accuracy is secondary goal.
+Top priority is education for the users.
+
+2-8 age range
+
+Vision for happy dance is a sequence of dance moves. Follow along with the dance moves.
+
+1 minuteish long dance
+
+A model will be on screen, not a real person
+
+Music but no voiceover component
+Possiblly different songs but the same dance moves
+
+No feedback to the child, just an end screen saying "you're done" with some fireworks or something
+
+Don't need to consider any on screen messages recarding caputing movement info of minors
+
+Assistant will record age of child, if they are a boy/girl, and how happy they are at the start
+
+Assistant will record how happy the child is at the end again
+
+April 14th is the date Elena wants to have something for
+
+
+Needed from Elena:
+Happy scale
+Dancer and dance
+Happy dance video
+
