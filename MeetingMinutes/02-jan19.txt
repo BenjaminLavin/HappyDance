@@ -1,2 +1,2 @@
 - Initial meeting with Elena to go over the project details and gather requirements
-- Notes are in google doc: https://docs.google.com/document/d/12Qremb0pY0i25q4s4Q3y8yKiD1WLneDYAiFpmUmLRVM/edit
+- Notes are in [google doc](https://docs.google.com/document/d/12Qremb0pY0i25q4s4Q3y8yKiD1WLneDYAiFpmUmLRVM/edit)
