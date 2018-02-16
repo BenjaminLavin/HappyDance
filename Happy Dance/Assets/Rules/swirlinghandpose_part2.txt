@@ -1,0 +1,3 @@
+LeftHandY < RightHandY
+LeftHandX > LeftShoulderX
+LeftEblowY - RightElbowY < 0.02

@@ -1,0 +1,3 @@
+RightHandX > RightShoulderX
+LeftHandX < LeftShoulderX
+RightKneeX - LeftKneeX > 0.10

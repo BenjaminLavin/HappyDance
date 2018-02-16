@@ -1,0 +1,4 @@
+
+LeftHandX < LeftShoulderX
+RightHandX > RightShoulderX
+LeftHandX - RightHandX < 0.05

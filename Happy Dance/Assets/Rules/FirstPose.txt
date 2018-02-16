@@ -1,0 +1,6 @@
+For Clapping and raising left leg.
+
+
+LeftHandX < LeftShoulderX
+RightHandX < RightShoulder X
+LeftKneeY > RightKnee Y

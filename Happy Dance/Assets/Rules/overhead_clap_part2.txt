@@ -1,0 +1,3 @@
+RightHandX < RightElbowX
+LeftHand X > LeftElbowX
+RightKneeX- LeftKneeX < 0.05

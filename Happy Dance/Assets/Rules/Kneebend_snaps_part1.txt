@@ -1,0 +1,3 @@
+RightHandY < RightHipY
+LeftHandY < LeftHipY
+LeftKneeX - RightKneeX < 0.05

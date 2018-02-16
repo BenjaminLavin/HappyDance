@@ -1,0 +1,3 @@
+RightHandX > RightShoulderX
+LeftHandX < LeftShoulderX
+RightKneeY < LeftKneeY
