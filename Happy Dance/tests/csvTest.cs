@@ -8,7 +8,7 @@ using Microsoft.VisualBasic.FileIO;
 // Testing out Nolan CSV command for starting the game
 public class NewPlayModeTest {
 
-	var path = @"C:\YourFile.csv";
+	var path = @"test.csv";
 	
 	[Test]
 	public void NewPlayModeTestSimplePasses() {
