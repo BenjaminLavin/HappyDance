@@ -929,6 +929,7 @@ public class BodySourceView : MonoBehaviour
             {
                 didMove = true;
                 tempDanceScore++;
+                moveCompleted = false;
             }
         }
         if (whichMove == 2 && moveCompleted == false)
@@ -967,6 +968,7 @@ public class BodySourceView : MonoBehaviour
             {
                 didMove = true;
                 tempDanceScore++;
+                moveCompleted = false;
             }
         }
 
