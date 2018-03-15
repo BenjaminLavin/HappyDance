@@ -124,7 +124,7 @@ public class BodySourceView : MonoBehaviour
     void Update()
     {
 
-        if(Time.frameCount == lastFrame + 200)
+        if(Time.frameCount == lastFrame + 1000)
         {
             // set our final score and exit the scene
             danceScore = tempDanceScore;
@@ -577,7 +577,7 @@ public class BodySourceView : MonoBehaviour
         //int fNum = Time.frameCount;
 
         //Read Body Data From File
-        string[] lines = System.IO.File.ReadAllLines(@"C:\Users\Justin\Documents\RoughDance.txt");
+        string[] lines = System.IO.File.ReadAllLines(@"C:\Users\Justin\Documents\Aligator_20s.txt");
 
 
 
