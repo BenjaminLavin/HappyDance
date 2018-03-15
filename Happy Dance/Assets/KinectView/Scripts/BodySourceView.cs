@@ -889,6 +889,7 @@ public class BodySourceView : MonoBehaviour
 
     private void moveMatch(Kinect.Body body, GameObject bodyObject)
     {
+
         if (whichMove == 0 && moveCompleted == false)
         {
 
