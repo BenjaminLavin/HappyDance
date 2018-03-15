@@ -3,8 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Kinect = Windows.Kinect;
 using Joint = Windows.Kinect.Joint;
+using System;
+using System.IO;
+using UnityEngine.SceneManagement;
 
-public class BodySourceView : MonoBehaviour 
+
+public class BodySourceView : MonoBehaviour
 {
     public Material BoneMaterial;
     public GameObject BodySourceManager;
@@ -16,15 +20,25 @@ public class BodySourceView : MonoBehaviour
     private Kinect.Body[] DancerBodyModel = null;
 
     public bool didMove = false;
+    public bool moveCompleted = false;
+
     public int whichMove = 0;
 
+    //public int firstSwitch, secondSwitch, thirdSwitch, FourthSwitch;
+    public int lastFrame = 0;
+    public int startFrame =0;
+    public int tempDanceScore =0;
+
+    public static int danceScore =100;
 
 
 
+
+    public int[] moveSwitchArray = new int[4] { 10000, 10000, 10000, 10000 };
 
     public float[,] SpineBaseArray = new float[8000, 3];
-   public float[,] SpineMidArray = new float[8000, 3];
-   public float[,] SpineShoulderArray = new float[8000, 3];
+    public float[,] SpineMidArray = new float[8000, 3];
+    public float[,] SpineShoulderArray = new float[8000, 3];
 
     public float[,] NeckArray = new float[8000, 3];
     public float[,] HeadArray = new float[8000, 3];
@@ -66,36 +80,36 @@ public class BodySourceView : MonoBehaviour
         { Kinect.JointType.AnkleLeft, Kinect.JointType.KneeLeft },
         { Kinect.JointType.KneeLeft, Kinect.JointType.HipLeft },
         { Kinect.JointType.HipLeft, Kinect.JointType.SpineBase },
-        
+
         { Kinect.JointType.FootRight, Kinect.JointType.AnkleRight },
         { Kinect.JointType.AnkleRight, Kinect.JointType.KneeRight },
         { Kinect.JointType.KneeRight, Kinect.JointType.HipRight },
         { Kinect.JointType.HipRight, Kinect.JointType.SpineBase },
-        
+
         { Kinect.JointType.HandTipLeft, Kinect.JointType.HandLeft },
         { Kinect.JointType.ThumbLeft, Kinect.JointType.HandLeft },
         { Kinect.JointType.HandLeft, Kinect.JointType.WristLeft },
         { Kinect.JointType.WristLeft, Kinect.JointType.ElbowLeft },
         { Kinect.JointType.ElbowLeft, Kinect.JointType.ShoulderLeft },
         { Kinect.JointType.ShoulderLeft, Kinect.JointType.SpineShoulder },
-        
+
         { Kinect.JointType.HandTipRight, Kinect.JointType.HandRight },
         { Kinect.JointType.ThumbRight, Kinect.JointType.HandRight },
         { Kinect.JointType.HandRight, Kinect.JointType.WristRight },
         { Kinect.JointType.WristRight, Kinect.JointType.ElbowRight },
         { Kinect.JointType.ElbowRight, Kinect.JointType.ShoulderRight },
         { Kinect.JointType.ShoulderRight, Kinect.JointType.SpineShoulder },
-        
+
         { Kinect.JointType.SpineBase, Kinect.JointType.SpineMid },
         { Kinect.JointType.SpineMid, Kinect.JointType.SpineShoulder },
         { Kinect.JointType.SpineShoulder, Kinect.JointType.Neck },
         { Kinect.JointType.Neck, Kinect.JointType.Head },
     };
-	private List<Kinect.JointType> __joints = new List<Kinect.JointType>
-	{
-		Kinect.JointType.HandLeft,
-		Kinect.JointType.HandRight,
-	};
+    private List<Kinect.JointType> __joints = new List<Kinect.JointType>
+    {
+        Kinect.JointType.HandLeft,
+        Kinect.JointType.HandRight,
+    };
 
 
     private void Start()
@@ -110,17 +124,26 @@ public class BodySourceView : MonoBehaviour
     void Update()
     {
 
-
+        if(Time.frameCount == lastFrame + 200)
+        {
+            // set our final score and exit the scene
+            danceScore = tempDanceScore;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
         
 
 
-
-
-        if (Time.frameCount == 800)
+        if (Time.frameCount % 100 == 0)
         {
-            {
-                PrintOutput();
-            }
+            Debug.Log(Time.frameCount);
+            //Debug.Log(moveSwitchArray[2]);
+        }
+
+
+        // When frame matches to dance, check if move was completed
+        if (moveSwitchArray[0] == Time.frameCount | moveSwitchArray[1] == Time.frameCount | moveSwitchArray[2] == Time.frameCount | lastFrame == Time.frameCount)
+        {
+            CheckScore();
         }
 
         //Body[] bodyData = BodySourceManager.GetData();
@@ -181,8 +204,9 @@ public class BodySourceView : MonoBehaviour
                     _Bodies[body.TrackingId] = CreateBodyObject(body.TrackingId);
                 }
 
-               //RefreshBodyObject(body, _Bodies[body.TrackingId]);
+                RefreshBodyObject(body, _Bodies[body.TrackingId]);
 
+                startFrame = Time.frameCount;
                 RefreshBodyObjectDancer(body, DancerBody);
 
 
@@ -193,34 +217,34 @@ public class BodySourceView : MonoBehaviour
 
 
         }
-      
+
 
     }
-    
+
     private GameObject CreateBodyObject(ulong id)
     {
         GameObject body = new GameObject("Body:" + id);
-        
+
         for (Kinect.JointType jt = Kinect.JointType.SpineBase; jt <= Kinect.JointType.ThumbRight; jt++)
         {
             GameObject jointObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            
+
             LineRenderer lr = jointObj.AddComponent<LineRenderer>();
             lr.SetVertexCount(2);
             lr.material = BoneMaterial;
             lr.SetWidth(0.05f, 0.05f);
-            
+
             jointObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
             jointObj.name = jt.ToString();
             jointObj.transform.parent = body.transform;
         }
-        
+
         return body;
     }
 
     private GameObject CreateBodyObjectDancer(ulong id)
     {
-       DancerBody = new GameObject("Body:" + id);
+        DancerBody = new GameObject("Body:" + id);
 
         for (Kinect.JointType jt = Kinect.JointType.SpineBase; jt <= Kinect.JointType.ThumbRight; jt++)
         {
@@ -245,25 +269,25 @@ public class BodySourceView : MonoBehaviour
 
 
 
-    int movearrayint =0;
+    int movearrayint = 0;
 
     private void RefreshBodyObject(Kinect.Body body, GameObject bodyObject)
     {
 
-        
-       outputList.Add(Time.frameCount.ToString());
+
+        outputList.Add(Time.frameCount.ToString());
 
         for (Kinect.JointType jt = Kinect.JointType.SpineBase; jt <= Kinect.JointType.ThumbRight; jt++)
         {
             Kinect.Joint sourceJoint = body.Joints[jt];
             Kinect.Joint? targetJoint = null;
-          
+
             if (_BoneMap.ContainsKey(jt))
             {
                 targetJoint = body.Joints[_BoneMap[jt]];
-            
+
             }
-            
+
             Transform jointObj = bodyObject.transform.Find(jt.ToString());
             //Transform jointObjDancer = DancerBody.transform.Find(jt.ToString());
 
@@ -294,13 +318,13 @@ public class BodySourceView : MonoBehaviour
             if (targetJoint.HasValue)
             {
                 lr.SetPosition(0, jointObj.localPosition);
-               
+
 
                 lr.SetPosition(1, GetVector3FromJoint(targetJoint.Value));
-               
 
-                lr.SetColors(GetColorForState (sourceJoint.TrackingState), GetColorForState(targetJoint.Value.TrackingState));
-                
+
+                lr.SetColors(GetColorForState(sourceJoint.TrackingState), GetColorForState(targetJoint.Value.TrackingState));
+
             }
             else
             {
@@ -336,7 +360,7 @@ public class BodySourceView : MonoBehaviour
 
             Transform jointObjDancer = DancerBody.transform.Find(jt.ToString());
 
-            
+
 
             jointObjDancer.localPosition = GetVector3FromFile(jt.ToString());
 
@@ -361,18 +385,18 @@ public class BodySourceView : MonoBehaviour
 
     }
 
-        private static Color GetColorForState(Kinect.TrackingState state)
+    private static Color GetColorForState(Kinect.TrackingState state)
     {
         switch (state)
         {
-        case Kinect.TrackingState.Tracked:
-            return Color.green;
+            case Kinect.TrackingState.Tracked:
+                return Color.green;
 
-        case Kinect.TrackingState.Inferred:
-            return Color.red;
+            case Kinect.TrackingState.Inferred:
+                return Color.red;
 
-        default:
-            return Color.black;
+            default:
+                return Color.black;
         }
     }
 
@@ -438,7 +462,7 @@ public class BodySourceView : MonoBehaviour
         {
             return new Vector3(RightElbowArray[movearrayint, 0], RightElbowArray[movearrayint, 1], RightElbowArray[movearrayint, 2]);
         }
-       
+
         if (joint == "HandRight")
         {
             return new Vector3(RightHandArray[movearrayint, 0], RightHandArray[movearrayint, 1], RightHandArray[movearrayint, 2]);
@@ -527,7 +551,7 @@ public class BodySourceView : MonoBehaviour
 
 
 
-        return new Vector3(10,10,10);
+        return new Vector3(10, 10, 10);
     }
 
 
@@ -555,17 +579,32 @@ public class BodySourceView : MonoBehaviour
         //Read Body Data From File
         string[] lines = System.IO.File.ReadAllLines(@"C:\Users\Justin\Documents\RoughDance.txt");
 
+
+
         int fNum = 0;
         int nextNum = 0;
+        int counter = 0;
 
 
         foreach (string line in lines)
         {
 
-            if(line.Contains("#"))
+
+
+            if (line.Contains("*"))
             {
-                CheckScore();
-                whichMove++;
+                lastFrame = fNum;
+            }
+
+            if (line.Contains("#"))
+            {
+                Debug.Log(fNum);
+                moveSwitchArray[counter] = fNum;
+               
+                //Debug.Log(moveSwitchArray[fNum].ToString() + " _ " + fNum.ToString());
+                counter++;
+                //CheckScore();
+                //whichMove++;
                 continue;
             }
 
@@ -573,6 +612,8 @@ public class BodySourceView : MonoBehaviour
             {
                 fNum++;
             }
+
+            //moveSwitchArray[fNum] = 0;
 
             var list = line.Split(':');
 
@@ -595,7 +636,7 @@ public class BodySourceView : MonoBehaviour
                 SpineBaseArray[fNum, 0] = float.Parse(coordList[0]);
                 SpineBaseArray[fNum, 1] = float.Parse(coordList[1]);
                 SpineBaseArray[fNum, 2] = float.Parse(coordList[2]);
-                
+
 
             }
 
@@ -769,6 +810,7 @@ public class BodySourceView : MonoBehaviour
             nextNum++;
 
 
+
         }
         //Console.WriteLine(HeadArray);
 
@@ -784,48 +826,49 @@ public class BodySourceView : MonoBehaviour
         string outputline = "This is a test";
 
         //print to the file
-      
-            if (whichMove == 0)
-            {
-                if (didMove)
-                {
-                    outputline = "Clapping Hands Completed";
-                }
 
-                outputline = "Clapping Hands Failed";
-            }
-            if (whichMove == 1)
+        if (whichMove == 0)
+        {
+            if (didMove)
             {
-                if (didMove)
-                {
-                    outputline = "Swirling Hands Completed";
-                }
-
-                outputline = "Swirling Hands Failed";
-            }
-            if (whichMove == 2)
-            {
-                if (didMove)
-                {
-                    outputline = "Shimmy Up Completed";
-                }
-
-                outputline = "Shimmy Up Failed";
-            }
-            if (whichMove == 3)
-            {
-                if (didMove)
-                {
-                    outputline = "Aligator Hands Completed";
-                }
-
-                outputline = "Aligator Hands Failed";
+                outputline = "Clapping Hands Completed";
             }
 
-            else
+            outputline = "Clapping Hands Failed";
+        }
+        if (whichMove == 1)
+        {
+            if (didMove)
             {
-                return;
+                outputline = "Swirling Hands Completed";
             }
+
+            outputline = "Swirling Hands Failed";
+        }
+        if (whichMove == 2)
+        {
+            if (didMove)
+            {
+                outputline = "Shimmy Up Completed";
+            }
+
+            outputline = "Shimmy Up Failed";
+        }
+        if (whichMove == 3)
+        {
+            if (didMove)
+            {
+                outputline = "Aligator Hands Completed";
+            }
+
+            outputline = "Aligator Hands Failed";
+        }
+
+        else
+        {
+
+            //return;
+        }
 
 
         using (System.IO.StreamWriter file =
@@ -833,18 +876,21 @@ public class BodySourceView : MonoBehaviour
         {
             file.WriteLine(outputline);
         }
-      
+
+        //System.IO.File.WriteAllLines(@"C:\Users\Justin\Documents\Score.txt", outputline
 
 
         didMove = false;
-        //whichMove++;
+        moveCompleted = false;
+        whichMove++;
 
 
     }
 
     private void moveMatch(Kinect.Body body, GameObject bodyObject)
     {
-        if(whichMove == 0)
+
+        if (whichMove == 0 && moveCompleted == false)
         {
 
             Transform jointObj = bodyObject.transform.Find("ShoulderRight");
@@ -861,10 +907,12 @@ public class BodySourceView : MonoBehaviour
             if (y2 > y1)
             {
                 didMove = true;
+                tempDanceScore++;
+                moveCompleted = true;
             }
 
         }
-        if (whichMove == 1)
+        if (whichMove == 1 && moveCompleted == false)
         {
             Transform jointObj = bodyObject.transform.Find("ShoulderRight");
             Kinect.Joint sourceJoint = body.Joints[Kinect.JointType.ShoulderRight];
@@ -880,9 +928,10 @@ public class BodySourceView : MonoBehaviour
             if (y2 > y1)
             {
                 didMove = true;
+                tempDanceScore++;
             }
         }
-        if (whichMove == 2)
+        if (whichMove == 2 && moveCompleted == false)
         {
             Transform jointObj = bodyObject.transform.Find("HandLeft");
             Kinect.Joint sourceJoint = body.Joints[Kinect.JointType.HandLeft];
@@ -898,9 +947,10 @@ public class BodySourceView : MonoBehaviour
             if (y2 > y1)
             {
                 didMove = true;
+                tempDanceScore++;
             }
         }
-        if (whichMove == 3)
+        if (whichMove == 3 && moveCompleted == false)
         {
             Transform jointObj = bodyObject.transform.Find("ShoulderRight");
             Kinect.Joint sourceJoint = body.Joints[Kinect.JointType.ShoulderRight];
@@ -916,6 +966,7 @@ public class BodySourceView : MonoBehaviour
             if (y2 - y1 < 0.50) //Rough estimate for now
             {
                 didMove = true;
+                tempDanceScore++;
             }
         }
 

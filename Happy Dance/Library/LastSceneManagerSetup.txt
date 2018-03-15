@@ -2,3 +2,6 @@ sceneSetups:
 - path: Assets/Menu.unity
   isLoaded: 1
   isActive: 1
+- path: Assets/KinectView/MainScene.unity
+  isLoaded: 1
+  isActive: 0
