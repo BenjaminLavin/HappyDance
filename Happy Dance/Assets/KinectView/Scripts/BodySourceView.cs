@@ -892,6 +892,7 @@ public class BodySourceView : MonoBehaviour
 
         if (whichMove == 0 && moveCompleted == false)
         {
+            Debug.Log("got here?");
 
             Transform jointObj = bodyObject.transform.Find("ShoulderRight");
             Kinect.Joint sourceJoint = body.Joints[Kinect.JointType.ShoulderRight];
@@ -954,8 +955,14 @@ public class BodySourceView : MonoBehaviour
         }
         if (whichMove == 3 && moveCompleted == false)
         {
-            Transform jointObj = bodyObject.transform.Find("ShoulderRight");
-            Kinect.Joint sourceJoint = body.Joints[Kinect.JointType.ShoulderRight];
+
+            Transform jointObj3 = bodyObject.transform.Find("HipLeft");
+            Kinect.Joint sourceJoint3 = body.Joints[Kinect.JointType.HipLeft];
+            jointObj3.localPosition = GetVector3FromJoint(sourceJoint3);
+
+
+            Transform jointObj = bodyObject.transform.Find("HandLeft");
+            Kinect.Joint sourceJoint = body.Joints[Kinect.JointType.HandLeft];
             jointObj.localPosition = GetVector3FromJoint(sourceJoint);
 
             Transform jointObjCompare = bodyObject.transform.Find("HandRight");
@@ -965,7 +972,11 @@ public class BodySourceView : MonoBehaviour
             float y1 = jointObj.localPosition.y;
             float y2 = jointObjCompare.localPosition.y;
 
-            if (y2 - y1 < 0.50) //Rough estimate for now
+            float x1 = jointObj.localPosition.x; // Handleft
+            float x2 = jointObj3.localPosition.x; // shoulder
+            float x3 = jointObjCompare.localPosition.x; //HandRight
+            
+            if ( y2 - y1 < 0.10 && x1 > x2 && x3>x2) //Rough estimate for now
             {
                 didMove = true;
                 tempDanceScore++;
