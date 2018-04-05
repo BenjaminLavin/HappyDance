@@ -27,21 +27,21 @@ public class CoordinateMapperView : MonoBehaviour
 		Texture2D renderTexture = _CoordinateMapperManager.GetColorTexture();
 		if (renderTexture != null)
 		{
-			gameObject.renderer.material.SetTexture("_MainTex", renderTexture);
+			gameObject.GetComponent<Renderer>().material.SetTexture("_MainTex", renderTexture);
 		}
 
 		depthPoints = _CoordinateMapperManager.GetDepthCoordinates ();
 		if (depthPoints != null)
 		{
 			depthBuffer = new ComputeBuffer(depthPoints.Length, sizeof(float) * 2);
-			gameObject.renderer.material.SetBuffer("depthCoordinates", depthBuffer);
+			gameObject.GetComponent<Renderer>().material.SetBuffer("depthCoordinates", depthBuffer);
 		}
 
 		bodyIndexPoints = _CoordinateMapperManager.GetBodyIndexBuffer ();
 		if (bodyIndexPoints != null)
 		{
 			bodyIndexBuffer = new ComputeBuffer(bodyIndexPoints.Length, sizeof(float));
-			gameObject.renderer.material.SetBuffer ("bodyIndexBuffer", bodyIndexBuffer);
+			gameObject.GetComponent<Renderer>().material.SetBuffer ("bodyIndexBuffer", bodyIndexBuffer);
 		}
 	}
 
