@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class  CSVManager : MonoBehaviour 
 {
@@ -11,7 +12,7 @@ public class  CSVManager : MonoBehaviour
     public void Back()
     {
         SceneManager.LoadScene("MainMenu");
-        Debug.Log("Play button pressed");
+        Debug.Log("Back button pressed");
     }
 
     public void NewCSV()
@@ -31,10 +32,14 @@ public class  CSVManager : MonoBehaviour
     public void UpdateCSV ()
     {
         //int sex = (GetComponent<Dropdown>().value);
-        //int sex = 1;
-
-        int sex = GameObject.Find("sexdropdown").GetComponent<Dropdown>().value;
-
+        int sex = 1;
+        try
+        {
+            sex = GameObject.Find("sexdropdown").GetComponent<TMP_Dropdown>().value;
+        }
+        catch{
+            sex = 2;
+        }
         string gender = "Other";
 
 
@@ -47,21 +52,62 @@ public class  CSVManager : MonoBehaviour
         else{
             gender = "Other";
         }
-        
-        //int age = (GetComponent<Dropdown>().value);
-        //int age = 4;
-        int age = GameObject.Find("agedropdown").GetComponent<Dropdown>().value + 2;
 
+        //int age = (GetComponent<Dropdown>().value);
+        int age = 4;
+        try
+        {
+            age = GameObject.Find("agedropdown").GetComponent<TMP_Dropdown>().value + 2;
+        }
+        catch
+        {
+            age = 7;
+        }
+        /*
+        if (age == 0)
+        {
+            childage = "2";
+        }
+        else if (age == 1)
+        {
+            childage = "3";
+        }
+        else if (age == 2)
+        {
+            childage = "3";
+        }
+        else if (age == 3)
+        {
+            childage = "4";
+        }
+        else if (age == 4)
+        {
+            childage = "5";
+        }
+        else if (age == 5)
+        {
+            childage = "6";
+        }
+        else if (age == 6)
+        {
+            childage = "7";
+        }
+        else
+        {
+            childage = "8+";
+        }
+        */
+        //string preDanceHappiness =   GetComponent<Slider>().value.ToString();
+
+        //string preDanceHappiness = GameObject.Find("predancehappiness").GetComponent<Slider>().value.ToString();
         string postDanceHappiness = GameObject.Find("postdanceslider").GetComponent<Slider>().value.ToString();
 
         //string preDanceHappiness = "testprehap";
         string preDanceHappiness = MainMenu.prehappiness.ToString();
         //string postDanceHappiness = "testposthap";
 
-        //YOUR VALUE HERE
-        //string scoreOnDance = Random.Range(0, 100).ToString();
+        string scoreOnDance = Random.Range(0, 100).ToString();
 
-        string scoreOnDance = BodySourceView.danceScore.ToString();
 
         //Info loadedData = DataSaver.loadData<Info>("PreDanceHappiness");
 
