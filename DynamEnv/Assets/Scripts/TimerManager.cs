@@ -20,6 +20,6 @@ public class TimerManager : MonoBehaviour {
 	}
 
 	void fadeout(){
-		StartCoroutine (GameObject.FindObjectOfType<SceneFader>().FadeAndLoadScene(SceneFader.FadeDirection.In,"EndScene"));
+		StartCoroutine (GameObject.FindObjectOfType<SceneFader>().FadeAndLoadScene(SceneFader.FadeDirection.In,"ExportMenu"));
 	}
 }
