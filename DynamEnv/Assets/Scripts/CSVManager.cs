@@ -4,20 +4,89 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 using TMPro;
 
 public class  CSVManager : MonoBehaviour 
 {
+	public Text maleText;
+	public Text femaleText;
+	public Button maleButton;
+	public Button femaleButton;
+
+	public Slider sexSlider;
+	public Slider ageSlider;
+	public Slider postHappinessSlider;
+
+
+	private string gender = "Male";
+	private float age = 2;
+	public float postHappiness = 5;
+
+
+	private Color full;
+	private Color faded;
+
+	public void MalePressed(){
+		sexSlider.value = 0;
+	}
+
+	public void FemalePressed(){
+		sexSlider.value = 1;
+	}
+
+	public void AgeSliderChanged(){
+		age = ageSlider.value;
+	}
+
+	public void HappinessChanged(){
+		postHappiness = postHappinessSlider.value;
+	}
+
+
+	public void SexSliderChanged(){
+		switch ((int)sexSlider.value) {
+		case 0:
+			maleText.color = Color.white;
+			maleButton.GetComponent<Image> ().color = full;
+			femaleText.color = Color.gray;
+			femaleButton.GetComponent<Image> ().color = faded;
+			gender = "Male";
+			break;
+		case 1:
+			maleText.color = Color.gray;
+			maleButton.GetComponent<Image> ().color = faded;
+			femaleText.color = Color.white;
+			femaleButton.GetComponent<Image> ().color = full;
+			gender = "Female";
+			break;
+		default:
+			break;
+		};
+	}
+
+	void Start(){
+		full = maleButton.GetComponent<Image> ().color;
+		faded = femaleButton.GetComponent<Image> ().color;
+		femaleText.color = Color.gray;
+		femaleButton.GetComponent<Image> ().color = faded;
+	}
 
     public void Back()
     {
-        SceneManager.LoadScene("Menu");
-        Debug.Log("Back button pressed");
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void NewCSV()
     {
-        //Debug.Log(postdanceslider.value);
+
+		if (System.IO.File.Exists (GetPath ())) {
+			if (!EditorUtility.DisplayDialog ("FILE ALREADY EXISTS",
+				"Creating a new CSV will overwrite the current file. Continue?", "Yes", "No")){
+				return;
+			}
+		}
+
         string filePath = GetPath();
 
         StreamWriter writer = new StreamWriter(filePath);
@@ -27,76 +96,54 @@ public class  CSVManager : MonoBehaviour
         writer.Flush();
         //This closes the file
         writer.Close();
+
+		WriteNewData ();
+
+		EditorUtility.DisplayDialog ("New CSV Created",
+			GetPath() + "\n\nApplication will now restart!", "Ok");
+
+		Back ();
     }
 
+	private void WriteNewData(){
+		string postDanceHappinessString = postHappiness.ToString();
+		string preDanceHappiness = MainMenu.prehappiness.ToString();
+		string scoreOnDance = BodySourceView.danceScore.ToString();
+
+		string filePath = GetPath();
+
+		using (StreamWriter writer = File.AppendText(filePath))
+		{
+			//write a new line to the CSV
+			writer.WriteLine(age + "," + gender + "," + scoreOnDance + "," + preDanceHappiness + "," + postDanceHappinessString);
+
+			//write ti file
+			writer.Flush();
+
+			//This closes the file
+			writer.Close();
+		}
+	}
+
     public void UpdateCSV ()
-    {
-        float sex = 1;
-        try
-        {
-            sex = GameObject.Find("sexslider").GetComponent<Slider>().value;
-        }
-        catch
-        {
-            sex = 2;
-        }
-        string gender = "Other";
+	{
+		if (System.IO.File.Exists (GetPath ())) {
+			WriteNewData ();
+		
 
-        if (sex < 0.5) {
-            gender = "Male";
-        }
-        else{
-            gender = "Female";
-        }
-        string age = "4";
-        try
-        {
-            age = (GameObject.Find("ageslider").GetComponent<Slider>().value + 2).ToString();
-        }
-        catch
-        {
-            age = "ERROR";
-        }
-  
-        string postDanceHappiness = GameObject.Find("postdanceslider").GetComponent<Slider>().value.ToString();
-        //string agestringtwo = GameObject.Find("ageslider").GetComponent<Slider>().value.ToString();
-        //string genderstring = GameObject.Find("sexslider").GetComponent<Slider>().value.ToString();
+			EditorUtility.DisplayDialog ("CSV Updated",
+				GetPath () + "\n\nApplication will now restart!", "Ok");
+		
 
-        //string preDanceHappiness = "testprehap";
-        string preDanceHappiness = MainMenu.prehappiness.ToString();
-        //string postDanceHappiness = "testposthap";
-
-        string scoreOnDance = Random.Range(0, 100).ToString();
-
-
-        //Info loadedData = DataSaver.loadData<Info>("PreDanceHappiness");
-
-        string filePath = GetPath();
-
-        using (StreamWriter writer = File.AppendText(filePath))
-        {
-            //write a new line to the CSV
-            writer.WriteLine(age + "," + gender + "," + scoreOnDance + "," + preDanceHappiness + "," + postDanceHappiness);
-
-            //write ti file
-            writer.Flush();
-            
-            //This closes the file
-            writer.Close();
-        }
+			Back ();
+		} else {
+			NewCSV ();
+		}
     }
 
     private string GetPath()
     {
-    #if UNITY_EDITOR
         return Application.dataPath + "/CSV/" + "Dance_Results.csv";
-    #elif UNITY_ANDROID
-        return Application.persistentDataPath+"Dance_Results.csv";
-    #elif UNITY_IPHONE
-        return Application.persistentDataPath+"/"+"Dance_Results.csv";
-    #else
-        return Application.dataPath +"/"+"Dance_Results.csv";
-    #endif
     }
 
 }

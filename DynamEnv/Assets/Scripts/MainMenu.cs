@@ -7,31 +7,20 @@ using System.IO;
 
 public class MainMenu : MonoBehaviour {
     public static float prehappiness = 5;
-    /*
-    public GameObject predancehappiness;
-    void Start()
-    {
-        if (predancehappiness == null) predancehappiness = GameObject.Find("predancehappiness"); // search slider in this object if its not set in unity inspector
-        Debug.Log(predancehappiness.GetComponent<Slider>().value.ToString());
-    }
-*/
+
+	public Slider preHappinessSlider;
+
+	public void HappinessChanged(){
+		prehappiness = preHappinessSlider.value;
+	}
+
     public void PlayGame ()
     {
-        try
-        {
-            prehappiness = (GameObject.Find("prehappiness").GetComponent<Slider>().value);
-        }
-        catch
-        {
-            prehappiness = 5;
-        }
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        Debug.Log("Play button pressed");
+		SceneManager.LoadScene("MainScene");
     }
 
     public void QuitGame()
     {
-        Debug.Log("quit Game");
         Application.Quit();
     }
 }   

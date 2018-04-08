@@ -5417,7 +5417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 906e8d76f267e44eca21299b6aaf2bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  danceSeconds: 800
+  danceSeconds: 15
 --- !u!4 &887990270
 Transform:
   m_ObjectHideFlags: 0
@@ -7433,7 +7433,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 32
+  field of view: 48
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
