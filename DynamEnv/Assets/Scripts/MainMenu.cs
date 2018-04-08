@@ -17,8 +17,14 @@ public class MainMenu : MonoBehaviour {
 */
     public void PlayGame ()
     {
-        prehappiness = (GameObject.Find("prehappiness").GetComponent<Slider>().value);
-        //prehappiness = (predancehappiness);
+        try
+        {
+            prehappiness = (GameObject.Find("prehappiness").GetComponent<Slider>().value);
+        }
+        catch
+        {
+            prehappiness = 5;
+        }
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         Debug.Log("Play button pressed");
     }
