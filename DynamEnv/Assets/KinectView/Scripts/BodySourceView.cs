@@ -13,6 +13,8 @@ public class BodySourceView : MonoBehaviour
     public Material BoneMaterial;
     public GameObject BodySourceManager;
 
+    public TimerManager timeManager;
+
     public List<string> outputList;
     public List<string> outputList2;
 
@@ -31,7 +33,7 @@ public class BodySourceView : MonoBehaviour
     public int startFrame =0;
     public int tempDanceScore =0;
 
-    public static int danceScore =100;
+    public static int danceScore = 0;
 
 
 
@@ -127,7 +129,8 @@ public class BodySourceView : MonoBehaviour
     void Update()
     {
 
-     
+
+        
         
         if(Time.frameCount == 1100)
         {
@@ -151,6 +154,8 @@ public class BodySourceView : MonoBehaviour
         {
             CheckScore();
         }
+       
+
 
         //Body[] bodyData = BodySourceManager.GetData();
         if (BodySourceManager == null)
@@ -971,6 +976,8 @@ public class BodySourceView : MonoBehaviour
             {
                 didMove = true;
                 tempDanceScore++;
+                danceScore++;
+
                 moveCompleted = true;
             }
 
@@ -1005,6 +1012,7 @@ public class BodySourceView : MonoBehaviour
             {
                 didMove = true;
                 tempDanceScore++;
+                danceScore++;
                 moveCompleted = true;
             }
         }
@@ -1041,6 +1049,7 @@ public class BodySourceView : MonoBehaviour
             {
                 didMove = true;
                 tempDanceScore++;
+                danceScore++;
                 moveCompleted = true;
             }
         }
@@ -1072,6 +1081,7 @@ public class BodySourceView : MonoBehaviour
             {
                 didMove = true;
                 tempDanceScore++;
+                danceScore++;
                 moveCompleted = true;
             }
         }

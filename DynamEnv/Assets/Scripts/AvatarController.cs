@@ -17,6 +17,8 @@ public class AvatarController : MonoBehaviour
 	//
 	int moveArrayint = 0;
 	bool dummy = true;
+    public static bool DanceDone = false;
+
 	bool In = true;
 	int rotationcounter = 0;
 	int SwirlPart = 0;
