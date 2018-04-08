@@ -155,6 +155,7 @@ public class AvatarController : MonoBehaviour
 	public Vector3 rightShoulerEuler, leftShoulderEuler;
 	public Vector3 rightElbowEuler, leftElbowEuler;
 	public Vector3 SpineEuler;
+    public Vector3 RootEuler;
 
 	public bool firstTimeDM2 = true, DM2over;
 	public bool firstTimeDM3 = true, DM3over;
@@ -231,7 +232,7 @@ public class AvatarController : MonoBehaviour
 		}
         else
         {
-            //startingAnimation();
+            startingAnimation();
          
         }
 
@@ -782,6 +783,7 @@ public class AvatarController : MonoBehaviour
 			rightElbowEuler = RightElbow.eulerAngles;
 			leftElbowEuler = LeftElbow.eulerAngles;
 			SpineEuler = Spine.eulerAngles;
+            RootEuler = Spine.eulerAngles;
 
 
 
@@ -1967,12 +1969,22 @@ public class AvatarController : MonoBehaviour
 
 	}
 
-    int saLeft =0, saRight=0;
+    int saLeft = 0, saRight = 0, reset = 0;
+    bool resetBool = true;
 
     // Make sure the cart is doing something at the start
     public void startingAnimation()
     {
 
+        if(reset > 33 & resetBool)
+        {
+            Debug.Log("exit");
+            RightShoulder.Rotate(0, 0, -65);
+            LeftShoulder.Rotate(0, 0, -65);
+            Root.Rotate(0, 0, (float) 2.5);
+            resetBool = false;
+            return;
+        }
 
         if (firstTimeSA)
         {
@@ -1983,37 +1995,46 @@ public class AvatarController : MonoBehaviour
         }
 
         // turns clockwise
-        if (saLeft < 12)
+        if (saLeft == 0)
         {
             Debug.Log("1");
             Root.Rotate(0, 0, (float) 1/2);
-            saLeft++;
+            
         }
 
         // turns counter clockwise
-        else if (saLeft>=12 & saRight < 24)
+        else if (saLeft == 1 || saLeft == 2)
         {
             Debug.Log("2");
             Root.Rotate(0, 0, (float) -1/2);
-            saRight++;
+           
         }
 
-        else if(saLeft>=12 & saRight >= 23)
+        else if(saLeft == 3)
         {
             Debug.Log("3");
             Root.Rotate(0, 0, (float)1 / 2);
-            saLeft++;
+          
         }
 
-        else if ( saLeft >=24 & saRight >= 23)
+
+        
+        if(saRight % 12 == 0)
         {
-            Debug.Log("4");
-            saRight = 0;
-            saLeft = 0;
+            saLeft++;
+
+            if(saLeft % 4 == 0 & saLeft != 0)
+            {
+                saLeft = 0;
+            }
+
+            reset++;
+
         }
 
-       
-     
+        saRight++;
+
+
 
     }
 
