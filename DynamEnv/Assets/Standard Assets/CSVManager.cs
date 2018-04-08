@@ -32,37 +32,32 @@ public class  CSVManager : MonoBehaviour
     public void UpdateCSV ()
     {
         //int sex = (GetComponent<Dropdown>().value);
-        int sex = 1;
+        /*
+        float sex = 1;
         try
         {
-            sex = GameObject.Find("sexdropdown").GetComponent<TMP_Dropdown>().value;
+            sex = GameObject.Find("sexslider").GetComponent<Slider>().value;
         }
         catch{
             sex = 2;
         }
+        */
+        /*
         string gender = "Other";
 
-
-        if (sex == 0) {
+        if (sex < 0.5) {
             gender = "Male";
         }
-        else if(sex == 1){
+        else{
             gender = "Female";
         }
-        else{
-            gender = "Other";
-        }
-
+        */
         //int age = (GetComponent<Dropdown>().value);
-        int age = 4;
-        try
-        {
-            age = GameObject.Find("agedropdown").GetComponent<TMP_Dropdown>().value + 2;
-        }
-        catch
-        {
-            age = 7;
-        }
+        //float age = 4;
+        //try{
+        //age = GameObject.Find("ageslider").GetComponent<Slider>().value + 2;
+
+        //string agestring = age.ToString();
         /*
         if (age == 0)
         {
@@ -101,22 +96,22 @@ public class  CSVManager : MonoBehaviour
 
         //string preDanceHappiness = GameObject.Find("predancehappiness").GetComponent<Slider>().value.ToString();
         string postDanceHappiness = GameObject.Find("postdanceslider").GetComponent<Slider>().value.ToString();
+        string agestringtwo       = GameObject.Find("ageslider").GetComponent<Slider>().value.ToString();
+        string genderstring       = GameObject.Find("sexslider").GetComponent<Slider>().value.ToString();
 
-        //string preDanceHappiness = "testprehap";
         string preDanceHappiness = MainMenu.prehappiness.ToString();
-        //string postDanceHappiness = "testposthap";
+
 
         string scoreOnDance = Random.Range(0, 100).ToString();
 
 
-        //Info loadedData = DataSaver.loadData<Info>("PreDanceHappiness");
 
         string filePath = GetPath();
 
         using (StreamWriter writer = File.AppendText(filePath))
         {
             //write a new line to the CSV
-            writer.WriteLine(age + "," + gender + "," + scoreOnDance + "," + preDanceHappiness + "," + postDanceHappiness);
+            writer.WriteLine(agestringtwo + "," + genderstring + "," + scoreOnDance + "," + preDanceHappiness + "," + postDanceHappiness);
 
             //write ti file
             writer.Flush();

@@ -31,76 +31,36 @@ public class  CSVManager : MonoBehaviour
 
     public void UpdateCSV ()
     {
-        //int sex = (GetComponent<Dropdown>().value);
-        int sex = 1;
+        float sex = 1;
         try
         {
-            sex = GameObject.Find("sexdropdown").GetComponent<TMP_Dropdown>().value;
+            sex = GameObject.Find("sexslider").GetComponent<Slider>().value;
         }
-        catch{
+        catch
+        {
             sex = 2;
         }
         string gender = "Other";
 
-
-        if (sex == 0) {
+        if (sex < 0.5) {
             gender = "Male";
         }
-        else if(sex == 1){
+        else{
             gender = "Female";
         }
-        else{
-            gender = "Other";
-        }
-
-        //int age = (GetComponent<Dropdown>().value);
-        int age = 4;
+        string age = "4";
         try
         {
-            age = GameObject.Find("agedropdown").GetComponent<TMP_Dropdown>().value + 2;
+            age = (GameObject.Find("ageslider").GetComponent<Slider>().value + 2).ToString();
         }
         catch
         {
-            age = 7;
+            age = "ERROR";
         }
-        /*
-        if (age == 0)
-        {
-            childage = "2";
-        }
-        else if (age == 1)
-        {
-            childage = "3";
-        }
-        else if (age == 2)
-        {
-            childage = "3";
-        }
-        else if (age == 3)
-        {
-            childage = "4";
-        }
-        else if (age == 4)
-        {
-            childage = "5";
-        }
-        else if (age == 5)
-        {
-            childage = "6";
-        }
-        else if (age == 6)
-        {
-            childage = "7";
-        }
-        else
-        {
-            childage = "8+";
-        }
-        */
-        //string preDanceHappiness =   GetComponent<Slider>().value.ToString();
-
-        //string preDanceHappiness = GameObject.Find("predancehappiness").GetComponent<Slider>().value.ToString();
+  
         string postDanceHappiness = GameObject.Find("postdanceslider").GetComponent<Slider>().value.ToString();
+        //string agestringtwo = GameObject.Find("ageslider").GetComponent<Slider>().value.ToString();
+        //string genderstring = GameObject.Find("sexslider").GetComponent<Slider>().value.ToString();
 
         //string preDanceHappiness = "testprehap";
         string preDanceHappiness = MainMenu.prehappiness.ToString();

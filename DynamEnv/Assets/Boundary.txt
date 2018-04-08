@@ -1,0 +1,3 @@
+Minimum Distance From Kinect (in meters): 1
+Length of the Boundary Box (in meters): 4
+Width of the Boundary Box (in meters): 4
