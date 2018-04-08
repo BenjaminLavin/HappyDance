@@ -144,7 +144,10 @@ public class BodySourceView : MonoBehaviour
 
 
         // When frame matches to dance, check if move was completed
-        if (moveSwitchArray[0] == Time.frameCount | moveSwitchArray[1] == Time.frameCount | moveSwitchArray[2] == Time.frameCount | lastFrame == Time.frameCount)
+        int firstMove, secondMove, thirdMove, fourthMove;
+
+        // 1000 Check for Second Move, 2000 Check for Third Move, 2750 Check for Final MOve
+        if (1000 == Time.frameCount | 2000 == Time.frameCount | 2750 == Time.frameCount)
         {
             CheckScore();
         }
@@ -918,11 +921,11 @@ public class BodySourceView : MonoBehaviour
         }
 
 
-        using (System.IO.StreamWriter file =
-        new System.IO.StreamWriter(@"C:\Users\Justin\Documents\Score.txt", true))
-        {
-            file.WriteLine(outputline);
-        }
+        //using (System.IO.StreamWriter file =
+        //new System.IO.StreamWriter(@"C:\Users\Justin\Documents\Score.txt", true))
+        //{
+        //    file.WriteLine(outputline);
+        //}
 
         //System.IO.File.WriteAllLines(@"C:\Users\Justin\Documents\Score.txt", outputline
 
@@ -1110,6 +1113,10 @@ public class BodySourceView : MonoBehaviour
         return yaw * (180.0 / Math.PI);
     }
 
+    public void setScore()
+    {
+        danceScore = tempDanceScore;
+    }
 
 
 

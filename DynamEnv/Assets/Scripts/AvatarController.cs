@@ -220,6 +220,8 @@ public class AvatarController : MonoBehaviour
 
 	int xcount;
 
+    bool firstTimeSA = true;
+
 	public void Update()
 	{
 
@@ -227,6 +229,11 @@ public class AvatarController : MonoBehaviour
 		{
 			moveFromArray();
 		}
+        else
+        {
+            //startingAnimation();
+         
+        }
 
 
 	}
@@ -1959,5 +1966,56 @@ public class AvatarController : MonoBehaviour
 
 
 	}
+
+    int saLeft =0, saRight=0;
+
+    // Make sure the cart is doing something at the start
+    public void startingAnimation()
+    {
+
+
+        if (firstTimeSA)
+        {
+
+            RightShoulder.Rotate(0, 0, 65);
+            LeftShoulder.Rotate(0, 0, 65);
+            firstTimeSA = false;
+        }
+
+        // turns clockwise
+        if (saLeft < 12)
+        {
+            Debug.Log("1");
+            Root.Rotate(0, 0, (float) 1/2);
+            saLeft++;
+        }
+
+        // turns counter clockwise
+        else if (saLeft>=12 & saRight < 24)
+        {
+            Debug.Log("2");
+            Root.Rotate(0, 0, (float) -1/2);
+            saRight++;
+        }
+
+        else if(saLeft>=12 & saRight >= 23)
+        {
+            Debug.Log("3");
+            Root.Rotate(0, 0, (float)1 / 2);
+            saLeft++;
+        }
+
+        else if ( saLeft >=24 & saRight >= 23)
+        {
+            Debug.Log("4");
+            saRight = 0;
+            saLeft = 0;
+        }
+
+       
+     
+
+    }
+
 
 }
