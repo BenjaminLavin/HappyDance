@@ -842,12 +842,12 @@ public class AvatarController : MonoBehaviour
 
 
 
-		if (moveArrayint < 1011)
+		if (moveArrayint < 800)
 		{
 			actDanceMoveOne();
 		}
 
-		else if (moveArrayint >= 1011 & !DM2over)
+		else if (moveArrayint >= 800 & !DM2over)
 		{
 			actDanceMoveTwo();
 			actDanceMoveTwo();
@@ -859,7 +859,7 @@ public class AvatarController : MonoBehaviour
 				actDanceMoveThree();
 			}
 
-			else if (!DM3over & DM3counter > 4)
+			else if (!DM3over & DM3counter > 2)
 			{
 				resetDanceMoveThree();
 			}
@@ -1478,7 +1478,7 @@ public class AvatarController : MonoBehaviour
 			LeftElbow.Rotate(25, 0, -90); // Elbow up
 			LeftWrist.Rotate(-90, 0, 0); // Wrist Inwards
 		}
-		if(moveArrayint > 990 & In == true)
+		if(moveArrayint > 770 & In == true)
 		{
 
 			Debug.Log("Entering Return Loop");
@@ -1596,7 +1596,7 @@ public class AvatarController : MonoBehaviour
 
 
 		// Reset the position
-		if (moveArrayint > (1011 + 1652) & part == 0)
+		if (moveArrayint > (800 + 800) & part == 0)
 		{
 
 			Debug.Log("Entering Return Loop");

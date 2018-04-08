@@ -147,7 +147,7 @@ public class BodySourceView : MonoBehaviour
         int firstMove, secondMove, thirdMove, fourthMove;
 
         // 1000 Check for Second Move, 2000 Check for Third Move, 2750 Check for Final MOve
-        if (1000 == Time.frameCount | 2000 == Time.frameCount | 2750 == Time.frameCount)
+        if (800 == Time.frameCount | 1600 == Time.frameCount | 2150 == Time.frameCount)
         {
             CheckScore();
         }
