@@ -15,8 +15,8 @@ public class ConfettiSpawner : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		leftPos = new Vector3 (-32.54f, 5.255511f, 45.45f);
-		rightPos = new Vector3 (-15.3f, 5.255511f, 62.8f);
+		leftPos = new Vector3 (-27.77f, 5.255511f, 50.38f);
+		rightPos = new Vector3 (-19.69f, 5.255511f, 58.03f);
 		middlePos = new Vector3 (-22.67f, 8.23f, 53.80f);
 		q = new Quaternion ();
 		q2 = new Quaternion ();
