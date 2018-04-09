@@ -232,7 +232,18 @@ public class AvatarController : MonoBehaviour
 
 		if (shouldStart)
 		{
-			moveFromArray();
+            if (resetBool)
+            {
+                Debug.Log("exit");
+                RightShoulder.Rotate(0, 0, -65);
+                LeftShoulder.Rotate(0, 0, -65);
+                //Root.Rotate(0, 0, (float)2.5);
+                Root.eulerAngles = new Vector3(Root.eulerAngles.x, Root.eulerAngles.y, 0);
+
+                resetBool = false;
+            }
+
+            moveFromArray();
 		}
         else
         {
@@ -2013,15 +2024,7 @@ public class AvatarController : MonoBehaviour
     public void startingAnimation()
     {
 
-        if(reset > 33 & resetBool)
-        {
-            Debug.Log("exit");
-            RightShoulder.Rotate(0, 0, -65);
-            LeftShoulder.Rotate(0, 0, -65);
-            Root.Rotate(0, 0, (float) 2.5);
-            resetBool = false;
-            return;
-        }
+     
 
         if (firstTimeSA)
         {
@@ -2035,7 +2038,7 @@ public class AvatarController : MonoBehaviour
         if (saLeft == 0)
         {
            // Debug.Log("1");
-            Root.Rotate(0, 0, (float) 1/2);
+            Root.Rotate(0, 0, (float) 1/3);
             
         }
 
@@ -2043,14 +2046,14 @@ public class AvatarController : MonoBehaviour
         else if (saLeft == 1 || saLeft == 2)
         {
             //Debug.Log("2");
-            Root.Rotate(0, 0, (float) -1/2);
+            Root.Rotate(0, 0, (float) -1/3);
            
         }
 
         else if(saLeft == 3)
         {
            // Debug.Log("3");
-            Root.Rotate(0, 0, (float)1 / 2);
+            Root.Rotate(0, 0, (float)1 / 3);
           
         }
 
