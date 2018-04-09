@@ -74,6 +74,7 @@ public class  CSVManager : MonoBehaviour
 	}
 
 	void Start(){
+		CloseAllDialogs ();
 		full = maleButton.GetComponent<Image> ().color;
 		faded = femaleButton.GetComponent<Image> ().color;
 		femaleText.color = Color.gray;
@@ -168,7 +169,9 @@ public class  CSVManager : MonoBehaviour
 
     private string GetPath()
     {
-        return Application.dataPath + "/CSV/" + "Dance_Results.csv";
+        //return Application.dataPath + "/CSV/" + "Dance_Results.csv";
+		return "Dance_Results.csv";
+
     }
 
 }

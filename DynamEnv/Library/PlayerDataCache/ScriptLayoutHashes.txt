@@ -1,4 +1,4 @@
-WindowsStandalone
+OSXStandalone
 SceneListBegin?
 Assets/Scenes/MainMenu.unity
 Assets/Scenes/MainScene.unity
@@ -218,7 +218,7 @@ cac5093fb1baf037bd671ecbc6727828 Assembly-CSharp.dll:UnityStandardAssets.ImageEf
 3857ebca8fcc0ca20b57a4c471232445 Assembly-CSharp.dll:.CanvasAnimationTimer
 30db6bf1abfbd17c6cdd1385b9eba6ca Assembly-CSharp.dll:UnityStandardAssets.ImageEffects.DepthOfField
 8a50d3d11bf0cc541f5c35347dd25633 Assembly-CSharp.dll:TMPro.Examples.ShaderPropAnimator
-bdedeff98908ac805591389a3bfb0b10 Assembly-CSharp.dll:.CSVManager
+32f50f993a377811968cd42b475c3bd8 Assembly-CSharp.dll:.CSVManager
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.AvatarMover
 0ed6872af1fdf77c68b420ba97653160 Assembly-CSharp.dll:.Playback
 5e960811f1e6c3c70fa9586f8740e866 Assembly-CSharp.dll:.ChangeCircle
@@ -241,7 +241,7 @@ e9bdabf9265d758d56f01bb188916fa8 UnityEngine.Networking.dll:UnityEngine.Networki
 73843688b51256aed059f049c540bca8 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformChild
 528ea1fd7c01796fc60c4e2f172ea229 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformVisualizer
 07fc54d1ad14ba99f8a3945ae9fa5006 Assembly-CSharp.dll:.ConfettiSpawner
-41f4e0624b6aa018f407dc5ce47979ef Assembly-CSharp.dll:.AvatarController
+dfeed12d3127db3007091b7b6fb2033e Assembly-CSharp.dll:.AvatarController
 4aadab9e3e4d34f6e069833451e815bb Assembly-CSharp.dll:UnityStandardAssets.ImageEffects.CreaseShading
 e2b50e4e1e5006d87e7ebe8a724e8f6d Assembly-CSharp.dll:UnityStandardAssets.ImageEffects.ContrastEnhance
 62229a3e4d53ca59bec192e89627ed52 Assembly-CSharp.dll:TMPro.Examples.CameraController
