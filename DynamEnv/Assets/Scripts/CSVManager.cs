@@ -4,7 +4,6 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEditor;
 using TMPro;
 
 public class  CSVManager : MonoBehaviour 
@@ -17,6 +16,12 @@ public class  CSVManager : MonoBehaviour
 	public Slider sexSlider;
 	public Slider ageSlider;
 	public Slider postHappinessSlider;
+
+	public GameObject ConfirmationDialog;
+	public GameObject NewCSVDialog;
+	public GameObject UpdateCSVDialog;
+	public Text NewCSVDialogText;
+	public Text UpdateCSVDialogText;
 
 
 	private string gender = "Male";
@@ -36,15 +41,18 @@ public class  CSVManager : MonoBehaviour
 	}
 
 	public void AgeSliderChanged(){
+		CloseAllDialogs ();
 		age = ageSlider.value;
 	}
 
 	public void HappinessChanged(){
+		CloseAllDialogs ();
 		postHappiness = postHappinessSlider.value;
 	}
 
 
 	public void SexSliderChanged(){
+		CloseAllDialogs ();
 		switch ((int)sexSlider.value) {
 		case 0:
 			maleText.color = Color.white;
@@ -70,39 +78,59 @@ public class  CSVManager : MonoBehaviour
 		faded = femaleButton.GetComponent<Image> ().color;
 		femaleText.color = Color.gray;
 		femaleButton.GetComponent<Image> ().color = faded;
+		NewCSVDialogText.text = GetPath () + "\nApplication will now restart!";
+		UpdateCSVDialogText.text = GetPath () + "\nApplication will now restart!";
 	}
 
     public void Back()
     {
+		CloseAllDialogs ();
         SceneManager.LoadScene("MainMenu");
     }
 
-    public void NewCSV()
-    {
+	public void YesOverwrite(){
+		CloseAllDialogs ();
+		CreateNewCSV ();
+	}
 
-		if (System.IO.File.Exists (GetPath ())) {
-			if (!EditorUtility.DisplayDialog ("FILE ALREADY EXISTS",
-				"Creating a new CSV will overwrite the current file. Continue?", "Yes", "No")){
-				return;
-			}
-		}
+	public void CloseAllDialogs(){
+		ConfirmationDialog.SetActive (false);
+		NewCSVDialog.SetActive (false);
+		UpdateCSVDialog.SetActive (false);
+	}
 
-        string filePath = GetPath();
+	private void CreateNewCSV(){
+		string filePath = GetPath();
 
-        StreamWriter writer = new StreamWriter(filePath);
+		StreamWriter writer = new StreamWriter(filePath);
 
-        writer.WriteLine("age,sex,scoreOnDance,preDanceHappiness,postDanceHappiness");
+		writer.WriteLine("age,sex,scoreOnDance,preDanceHappiness,postDanceHappiness");
 
-        writer.Flush();
-        //This closes the file
-        writer.Close();
+		writer.Flush();
+		//This closes the file
+		writer.Close();
 
 		WriteNewData ();
 
-		EditorUtility.DisplayDialog ("New CSV Created",
-			GetPath() + "\n\nApplication will now restart!", "Ok");
+		NewCSVDialog.SetActive (true);
+	}
 
+	public void OkDialog(){
+		CloseAllDialogs ();
 		Back ();
+	}
+
+    public void NewCSV()
+    {
+		CloseAllDialogs ();
+		if (System.IO.File.Exists (GetPath ())) {
+			ConfirmationDialog.SetActive (true);
+			return;
+		} else {
+			CreateNewCSV ();
+		}
+
+        
     }
 
 	private void WriteNewData(){
@@ -127,15 +155,12 @@ public class  CSVManager : MonoBehaviour
 
     public void UpdateCSV ()
 	{
+		CloseAllDialogs ();
 		if (System.IO.File.Exists (GetPath ())) {
 			WriteNewData ();
 		
+			UpdateCSVDialog.SetActive (true);
 
-			EditorUtility.DisplayDialog ("CSV Updated",
-				GetPath () + "\n\nApplication will now restart!", "Ok");
-		
-
-			Back ();
 		} else {
 			NewCSV ();
 		}
