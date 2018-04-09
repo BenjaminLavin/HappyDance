@@ -7,6 +7,8 @@ public class TimerManager : MonoBehaviour {
 
 	private Camera mainCam;
 	public float danceSeconds = 15f;
+    public bool danceDone = false;
+
 
 	// Use this for initialization
 	void Start () {
@@ -17,6 +19,7 @@ public class TimerManager : MonoBehaviour {
 	public void cameraout(){
 		mainCam.GetComponent<Animator> ().SetTrigger ("cameraout");
 		Invoke ("fadeout", 7f);
+        danceDone = true;
 	}
 
 	void fadeout(){

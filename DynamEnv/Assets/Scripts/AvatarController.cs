@@ -17,6 +17,8 @@ public class AvatarController : MonoBehaviour
 	//
 	int moveArrayint = 0;
 	bool dummy = true;
+    public static bool DanceDone = false;
+
 	bool In = true;
 	int rotationcounter = 0;
 	int SwirlPart = 0;
@@ -26,6 +28,8 @@ public class AvatarController : MonoBehaviour
 	int interval = 25, interval2 = 25, interval3 =25;
 	int returnCounter = 0;
 	public bool shouldStart = false;
+
+
 
 	// Bool that determines whether the avatar is active.
 	//public bool Active = true;
@@ -155,6 +159,7 @@ public class AvatarController : MonoBehaviour
 	public Vector3 rightShoulerEuler, leftShoulderEuler;
 	public Vector3 rightElbowEuler, leftElbowEuler;
 	public Vector3 SpineEuler;
+    public Vector3 RootEuler;
 
 	public bool firstTimeDM2 = true, DM2over;
 	public bool firstTimeDM3 = true, DM3over;
@@ -220,6 +225,8 @@ public class AvatarController : MonoBehaviour
 
 	int xcount;
 
+    bool firstTimeSA = true;
+
 	public void Update()
 	{
 
@@ -227,6 +234,11 @@ public class AvatarController : MonoBehaviour
 		{
 			moveFromArray();
 		}
+        else
+        {
+            startingAnimation();
+         
+        }
 
 
 	}
@@ -775,6 +787,7 @@ public class AvatarController : MonoBehaviour
 			rightElbowEuler = RightElbow.eulerAngles;
 			leftElbowEuler = LeftElbow.eulerAngles;
 			SpineEuler = Spine.eulerAngles;
+            RootEuler = Spine.eulerAngles;
 
 
 
@@ -802,79 +815,71 @@ public class AvatarController : MonoBehaviour
 		}
 
 
-		// Uncheck
-		//Root.position = new Vector3(SpineArray[moveArrayint, 0] + (float)originalRootX, SpineArray[moveArrayint, 1] + (float)originalRootY, (float)originalRootZ);
+        // Uncheck
+        //Root.position = new Vector3(SpineArray[moveArrayint, 0] + (float)originalRootX, SpineArray[moveArrayint, 1] + (float)originalRootY, (float)originalRootZ);
 
 
-		//Spine.position = new Vector3(SpineArray[moveArrayint, 0], SpineArray[moveArrayint, 1], 20);
+        //Spine.position = new Vector3(SpineArray[moveArrayint, 0], SpineArray[moveArrayint, 1], 20);
 
-		// Ignore Head and Neck
-		//Head.position = new Vector3(HeadArray[moveArrayint, 0], HeadArray[moveArrayint, 1],HeadArray[moveArrayint, 2]);
-		//Neck.position = new Vector3(NeckArray[moveArrayint, 0], NeckArray[moveArrayint, 1], 20);
-
-
-		//RightUpperArm.position = new Vector3(RightShoulderArray[moveArrayint, 0], RightShoulderArray[moveArrayint, 1], 20);
-		//LeftUpperArm.position = new Vector3(LeftShoulderArray[moveArrayint, 0], LeftShoulderArray[moveArrayint, 1], 20);
-
-		//Hips.position = new Vector3(HipsArray[moveArrayint, 0], HipsArray[moveArrayint, 1], 20);
-
-		//bones[1].position = new Vector3(HipsArray[moveArrayint, 0] +1, HipsArray[moveArrayint, 1]+2, 20);
-		//joint_ShoulderLT.position = new Vector3(10, 10, 10);
-
-		// Affects the Shirt
-
-		//LeftShoulder.position = new Vector3(LeftShoulderArray[moveArrayint, 0], LeftShoulderArray[moveArrayint, 1]+7, 20);
-		//RightShoulder.position = new Vector3(RightShoulderArray[moveArrayint, 0], RightShoulderArray[moveArrayint, 1]+7, 20);
+        // Ignore Head and Neck
+        //Head.position = new Vector3(HeadArray[moveArrayint, 0], HeadArray[moveArrayint, 1],HeadArray[moveArrayint, 2]);
+        //Neck.position = new Vector3(NeckArray[moveArrayint, 0], NeckArray[moveArrayint, 1], 20);
 
 
-		//LeftElbow.position = new Vector3(RightElbowArray[moveArrayint, 0] + (float) originalElbowRtX, RightElbowArray[moveArrayint, 1] + (float)originalElbowRtY, (float)originalRootZ);
-		//RightElbow.position = new Vector3(LeftElbowArray[moveArrayint, 0]+ (float) originalElbowLtX, LeftElbowArray[moveArrayint, 1] + (float)originalElbowLtY, (float)originalElbowLtZ);
+        //RightUpperArm.position = new Vector3(RightShoulderArray[moveArrayint, 0], RightShoulderArray[moveArrayint, 1], 20);
+        //LeftUpperArm.position = new Vector3(LeftShoulderArray[moveArrayint, 0], LeftShoulderArray[moveArrayint, 1], 20);
 
-		// 1652 amount of frames in first dance, 1202 amount of frames in second dance
+        //Hips.position = new Vector3(HipsArray[moveArrayint, 0], HipsArray[moveArrayint, 1], 20);
 
+        //bones[1].position = new Vector3(HipsArray[moveArrayint, 0] +1, HipsArray[moveArrayint, 1]+2, 20);
+        //joint_ShoulderLT.position = new Vector3(10, 10, 10);
 
+        // Affects the Shirt
 
-
-		if (moveArrayint < 1011)
-		{
-			actDanceMoveOne();
-		}
-
-		else if (moveArrayint >= 1011 & !DM2over)
-		{
-			actDanceMoveTwo();
-			actDanceMoveTwo();
-		}
-		else
-		{
-			if (DM3counter < 5)
-			{
-				actDanceMoveThree();
-			}
-
-			else if (!DM3over & DM3counter > 4)
-			{
-				resetDanceMoveThree();
-			}
-			else
-			{
-				actDanceMoveFour();
-				actDanceMoveFour();
-			}
-
-		}
+        //LeftShoulder.position = new Vector3(LeftShoulderArray[moveArrayint, 0], LeftShoulderArray[moveArrayint, 1]+7, 20);
+        //RightShoulder.position = new Vector3(RightShoulderArray[moveArrayint, 0], RightShoulderArray[moveArrayint, 1]+7, 20);
 
 
-		//430 For third Dance Move
-		// For two Iterations run Dance Move 3
+        //LeftElbow.position = new Vector3(RightElbowArray[moveArrayint, 0] + (float) originalElbowRtX, RightElbowArray[moveArrayint, 1] + (float)originalElbowRtY, (float)originalRootZ);
+        //RightElbow.position = new Vector3(LeftElbowArray[moveArrayint, 0]+ (float) originalElbowLtX, LeftElbowArray[moveArrayint, 1] + (float)originalElbowLtY, (float)originalElbowLtZ);
+
+        // 1652 amount of frames in first dance, 1202 amount of frames in second dance
 
 
 
 
+        if (moveArrayint < 800)
+        {
+            actDanceMoveOne();
+        }
+
+        else if (moveArrayint >= 800 & !DM2over)
+        {
+            actDanceMoveTwo();
+            actDanceMoveTwo();
+        }
+        else
+        {
+            if (DM3counter < 5)
+            {
+                actDanceMoveThree();
+            }
+
+            else if (!DM3over & DM3counter > 2)
+            {
+                resetDanceMoveThree();
+            }
+            else
+            {
+                actDanceMoveFour();
+                actDanceMoveFour();
+            }
+
+        }
 
 
-
-		//rotationcounter++;
+        //430 For third Dance Move
+        // For two Iterations run Dance Move 3
 
 
 
@@ -882,21 +887,29 @@ public class AvatarController : MonoBehaviour
 
 
 
-		// Elbow Y = 90, Z= 270
-		//RightElbow.Rotate(0, 90, 270)
+        //rotationcounter++;
 
-		// Uncheck
-		//RightFoot.position = new Vector3(RightKneeArray[moveArrayint, 0] + (float)originalFootLtX, (float)originalFootLtY - 1, (float)originalThighLtZ);
-		//LeftFoot.position = new Vector3(LeftKneeArray[moveArrayint, 0] + (float)originalFootRtX, (float)originalFootRtY - 1, (float)originalThighLtZ);
 
-		//LeftKnee.position = new Vector3(RightKneeArray[moveArrayint, 0]+ (float)originalKneeLtX,  (float)originalKneeLtY, (float)originalThighLtZ);
-		//RightKnee.position = new Vector3(LeftKneeArray[moveArrayint, 0]+ (float)originalKneeRtX, (float)originalKneeRtY, (float)originalThighLtZ);
 
-		// Uncheck
-		//RightThigh.position = new Vector3(RightKneeArray[moveArrayint, 0] + (float)originalThighLtX, (float)originalThighLtY - 2, (float)originalThighLtZ);
-		//LeftThigh.position = new Vector3(LeftKneeArray[moveArrayint, 0] + (float)originalThighRtX, (float)originalThighRtY - 2, (float)originalThighLtZ);
 
-		moveArrayint++;
+
+
+
+        // Elbow Y = 90, Z= 270
+        //RightElbow.Rotate(0, 90, 270)
+
+        // Uncheck
+        //RightFoot.position = new Vector3(RightKneeArray[moveArrayint, 0] + (float)originalFootLtX, (float)originalFootLtY - 1, (float)originalThighLtZ);
+        //LeftFoot.position = new Vector3(LeftKneeArray[moveArrayint, 0] + (float)originalFootRtX, (float)originalFootRtY - 1, (float)originalThighLtZ);
+
+        //LeftKnee.position = new Vector3(RightKneeArray[moveArrayint, 0]+ (float)originalKneeLtX,  (float)originalKneeLtY, (float)originalThighLtZ);
+        //RightKnee.position = new Vector3(LeftKneeArray[moveArrayint, 0]+ (float)originalKneeRtX, (float)originalKneeRtY, (float)originalThighLtZ);
+
+        // Uncheck
+        //RightThigh.position = new Vector3(RightKneeArray[moveArrayint, 0] + (float)originalThighLtX, (float)originalThighLtY - 2, (float)originalThighLtZ);
+        //LeftThigh.position = new Vector3(LeftKneeArray[moveArrayint, 0] + (float)originalThighRtX, (float)originalThighRtY - 2, (float)originalThighLtZ);
+
+        moveArrayint++;
 
 	}
 
@@ -1471,7 +1484,7 @@ public class AvatarController : MonoBehaviour
 			LeftElbow.Rotate(25, 0, -90); // Elbow up
 			LeftWrist.Rotate(-90, 0, 0); // Wrist Inwards
 		}
-		if(moveArrayint > 990 & In == true)
+		if(moveArrayint > 770 & In == true)
 		{
 
 			Debug.Log("Entering Return Loop");
@@ -1589,7 +1602,7 @@ public class AvatarController : MonoBehaviour
 
 
 		// Reset the position
-		if (moveArrayint > (1011 + 1652) & part == 0)
+		if (moveArrayint > (800 + 800) & part == 0)
 		{
 
 			Debug.Log("Entering Return Loop");
@@ -1639,8 +1652,13 @@ public class AvatarController : MonoBehaviour
 					RightElbow.Rotate(0, 40 / interval, -35 / interval);
 				}
 				else
+
+                // Move Shoulder Right shoulder back, and left shoulder in
 				{
-					RightShoulder.Rotate(0, -45 / (interval * 2), 0);
+                    if (rotationcounter == 14)
+                        DynamicEnvironment.DidMove(DanceMove.HandsLeft);
+
+                    RightShoulder.Rotate(0, -45 / (interval * 2), 0);
 					LeftShoulder.Rotate(0, 45 / (interval * 2), 0);
 				}
 			}
@@ -1680,7 +1698,11 @@ public class AvatarController : MonoBehaviour
 				}
 				else
 				{
-					RightShoulder.Rotate(0, 45 / (interval * 2), 0);
+
+                    if (rotationcounter == 14)
+                        DynamicEnvironment.DidMove(DanceMove.HandsRight);
+
+                    RightShoulder.Rotate(0, 45 / (interval * 2), 0);
 					LeftShoulder.Rotate(0, -45 / (interval * 2), 0);
 				}
 
@@ -1831,9 +1853,18 @@ public class AvatarController : MonoBehaviour
 		}
 		if (part == 4 || part == 5)
 		{
-			Spine.Rotate(0, -65 / (interval), -55 / interval2);
+            Debug.Log(rotationcounter);
+
+            if (rotationcounter == 14 & interval > 0)
+                DynamicEnvironment.DidMove(DanceMove.ArmsLeft);
+
+            else if(rotationcounter == 14 & interval < 0)
+                DynamicEnvironment.DidMove(DanceMove.ArmsRight);
+
+            Spine.Rotate(0, -65 / (interval), -55 / interval2);
 
 		}
+
 		if (part == 6 || part == 7)
 		{
 			Spine.Rotate(0, 65 / (interval), 55 / interval2);
@@ -1848,7 +1879,7 @@ public class AvatarController : MonoBehaviour
 
 		if (rotationcounter % interval == 0 & rotationcounter != 0)
 		{
-			Debug.Log(part + ":" + interval);
+			//Debug.Log(part + ":" + interval);
 			part++;
 
 			part = part % 10;
@@ -1856,14 +1887,16 @@ public class AvatarController : MonoBehaviour
 			{
 				interval = -interval;
 				DM3counter++;
-
+                
 			}
-		}
+            rotationcounter = 0;
+        }
+
 		rotationcounter++;
 	}
 
 
-
+    
 	public void actDanceMoveFour()
 	{
 		if (firstTimeDM4)
@@ -1882,14 +1915,20 @@ public class AvatarController : MonoBehaviour
 
 			if (In)
 			{
-				RightShoulder.Rotate(0, 0, (float)-2.0);
+                // Change for Later, 
+                if (rotationcounter == 9 & (part == 4 | part == 0 | part ==8) )
+                    DynamicEnvironment.DidMove(DanceMove.HandsRight);
+
+                RightShoulder.Rotate(0, 0, (float)-2.0);
 				LeftShoulder.Rotate(0, 0, (float)1);
 			}
 			else
 			{
-				RightShoulder.Rotate(0, 0, (float)2.0);
+                
+                RightShoulder.Rotate(0, 0, (float)2.0);
 				LeftShoulder.Rotate(0, 0, (float)-1);
 			}
+
 		}
 
 		if (part == 12 || part == 13)
@@ -1909,9 +1948,13 @@ public class AvatarController : MonoBehaviour
 
 		if (part > 15 & part < 28)
 		{
+            // Triple Clap otherSide
 			if (In)
 			{
-				RightShoulder.Rotate(0, 0, (float)-2.0);
+                if (rotationcounter == 9 & (part == 16 | part == 20 | part == 24))
+                    DynamicEnvironment.DidMove(DanceMove.HandsLeft);
+
+                RightShoulder.Rotate(0, 0, (float)-2.0);
 				LeftShoulder.Rotate(0, 0, (float)1);
 			}
 			else
@@ -1937,6 +1980,9 @@ public class AvatarController : MonoBehaviour
 				In = !In;
 			}
 			part = part % 30;
+
+            rotationcounter = 0;
+
 		}
 		rotationcounter++;
 	}
@@ -1959,5 +2005,75 @@ public class AvatarController : MonoBehaviour
 
 
 	}
+
+    int saLeft = 0, saRight = 0, reset = 0;
+    bool resetBool = true;
+
+    // Make sure the cart is doing something at the start
+    public void startingAnimation()
+    {
+
+        if(reset > 33 & resetBool)
+        {
+            Debug.Log("exit");
+            RightShoulder.Rotate(0, 0, -65);
+            LeftShoulder.Rotate(0, 0, -65);
+            Root.Rotate(0, 0, (float) 2.5);
+            resetBool = false;
+            return;
+        }
+
+        if (firstTimeSA)
+        {
+
+            RightShoulder.Rotate(0, 0, 65);
+            LeftShoulder.Rotate(0, 0, 65);
+            firstTimeSA = false;
+        }
+
+        // turns clockwise
+        if (saLeft == 0)
+        {
+           // Debug.Log("1");
+            Root.Rotate(0, 0, (float) 1/2);
+            
+        }
+
+        // turns counter clockwise
+        else if (saLeft == 1 || saLeft == 2)
+        {
+            //Debug.Log("2");
+            Root.Rotate(0, 0, (float) -1/2);
+           
+        }
+
+        else if(saLeft == 3)
+        {
+           // Debug.Log("3");
+            Root.Rotate(0, 0, (float)1 / 2);
+          
+        }
+
+
+        
+        if(saRight % 12 == 0)
+        {
+            saLeft++;
+
+            if(saLeft % 4 == 0 & saLeft != 0)
+            {
+                saLeft = 0;
+            }
+
+            reset++;
+
+        }
+
+        saRight++;
+
+
+
+    }
+
 
 }
