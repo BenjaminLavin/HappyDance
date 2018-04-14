@@ -508,66 +508,66 @@ public class AvatarController : MonoBehaviour
 		if (Pelvis != null)
 		{
 			bones[1] = Pelvis;
-			Debug.Log("Pelvis");
+			//Debug.Log("Pelvis");
 		}
 		// If they're not empty, pull in the values from Unity and assign them to the array.
 		if (Hips != null)
 		{
 			bones[1] = Hips;
-			Debug.Log("Hips");
+			//Debug.Log("Hips");
 		}
 
 		if (Spine != null)
 		{
 			bones[2] = Spine;
-			Debug.Log("Spine");
+			//Debug.Log("Spine");
 		}
 
 		if (Neck != null)
 		{
 			bones[3] = Neck;
-			Debug.Log("Neck");
+			//Debug.Log("Neck");
 		}
 
 		if (Head != null)
 		{
 			bones[4] = Head;
-			Debug.Log("Head");
+			//Debug.Log("Head");
 		}
 
 		if (RightUpperLeg != null)
 		{
-			Debug.Log("UpperLeg");
+			//Debug.Log("UpperLeg");
 		}
 
 		//Can't Find
 		if (LeftShoulder != null)
 		{
 			bones[5] = LeftShoulder;
-			Debug.Log("LeftShoulder");
+			//Debug.Log("LeftShoulder");
 		}
 
 		if (LeftUpperArm != null)
 		{
 			bones[6] = LeftUpperArm;
-			Debug.Log("LeftUpperArm");
+			//Debug.Log("LeftUpperArm");
 		}
 		if (LeftElbow != null)
 		{
 			bones[7] = LeftElbow;
-			Debug.Log("LeftElbow");
+			//Debug.Log("LeftElbow");
 		}
 
 		//Can't Find
 		if (LeftWrist != null) {
 			bones[8] = LeftWrist;
-			Debug.Log("LeftWrist");
+			//Debug.Log("LeftWrist");
 		}
 
 		if (LeftHand != null)
 		{
 			bones[9] = LeftHand;
-			Debug.Log("LeftHand");
+			//Debug.Log("LeftHand");
 			//		if(LeftFingers != null)
 			//			bones[10] = LeftFingers;
 		}
@@ -576,27 +576,27 @@ public class AvatarController : MonoBehaviour
 		if (RightShoulder != null)
 		{
 			bones[11] = RightShoulder;
-			Debug.Log("RightShoulder");
+			//Debug.Log("RightShoulder");
 		}
 		if (RightUpperArm != null)
 		{
 			bones[12] = RightUpperArm;
-			Debug.Log("RightUpperArm");
+			//Debug.Log("RightUpperArm");
 		}
 		if (RightElbow != null)
 		{
 			bones[13] = RightElbow;
-			Debug.Log("RightElbow");
+			//Debug.Log("RightElbow");
 		}
 		if (RightWrist != null)
 		{
 			bones[14] = RightWrist;
-			Debug.Log("RightWrist");
+			//Debug.Log("RightWrist");
 		}
 		if (RightHand != null)
 		{
 			bones[15] = RightHand;
-			Debug.Log("RightHand");
+			//Debug.Log("RightHand");
 			//		if(RightFingers != null)
 			//			bones[16] = RightFingers;
 		}
@@ -604,43 +604,43 @@ public class AvatarController : MonoBehaviour
 		if (LeftThigh != null)
 		{
 			bones[17] = LeftThigh;
-			Debug.Log("LeftThigh");
+			//Debug.Log("LeftThigh");
 		}
 		if (LeftKnee != null)
 		{
 			bones[18] = LeftKnee;
-			Debug.Log("LeftKnee");
+			//Debug.Log("LeftKnee");
 		}
 		if (LeftFoot != null)
 		{
 			bones[19] = LeftFoot;
-			Debug.Log("LeftFoot");
+			//Debug.Log("LeftFoot");
 		}
 		if (LeftToes != null)
 		{
 			bones[20] = LeftToes;
-			Debug.Log("LeftToes");
+			//Debug.Log("LeftToes");
 		}
 
 		if (RightThigh != null)
 		{
 			bones[21] = RightThigh;
-			Debug.Log("RightThigh");
+			//Debug.Log("RightThigh");
 		}
 		if (RightKnee != null)
 		{
 			bones[22] = RightKnee;
-			Debug.Log("RightKnee");
+			//Debug.Log("RightKnee");
 		}
 		if (RightFoot != null)
 		{
 			bones[23] = RightFoot;
-			Debug.Log("RightFoot");
+			//Debug.Log("RightFoot");
 		}
 		if (RightToes != null)
 		{
 			bones[24] = RightToes;
-			Debug.Log("RightToes");
+			//Debug.Log("RightToes");
 		}
 
 	}
@@ -860,13 +860,13 @@ public class AvatarController : MonoBehaviour
 
 
 
-        if (moveArrayint < 300)
+        if (moveArrayint < 600)
         {
             actDanceMoveOne();
-            actDanceMoveOne();
+            //actDanceMoveOne();
         }
 
-        else if (moveArrayint >= 300 & !DM2over)
+        else if (moveArrayint >= 600 & !DM2over)
         {
             actDanceMoveTwo();
             actDanceMoveTwo();
@@ -876,7 +876,7 @@ public class AvatarController : MonoBehaviour
         }
         else
         {
-            if (DM3counter < 2)
+            if (DM3counter < 5)
             {
                 actDanceMoveThree();
             }
@@ -1501,7 +1501,7 @@ public class AvatarController : MonoBehaviour
 			LeftWrist.Rotate(-90, 0, 0); // Wrist Inwards
             firstTimeDM1 = false;
 		}
-		if(moveArrayint > 270 & In == true)
+		if(moveArrayint > 570 & In == true)
 		{
 
 			Debug.Log("Entering Return Loop");
@@ -1619,7 +1619,7 @@ public class AvatarController : MonoBehaviour
 
 
 		// Reset the position
-		if (moveArrayint > (300 + 300) & part == 0)
+		if (moveArrayint > (600 + 800) & part == 0)
 		{
 
 			Debug.Log("Entering Return Loop");

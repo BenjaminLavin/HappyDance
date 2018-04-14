@@ -14,6 +14,7 @@ public class BodySourceView : MonoBehaviour
     public GameObject BodySourceManager;
 
     public TimerManager timeManager;
+    public static System.Random random = new System.Random();
 
     public List<string> outputList;
     public List<string> outputList2;
@@ -119,6 +120,9 @@ public class BodySourceView : MonoBehaviour
     private void Start()
     {
 
+        timeManager = gameObject.GetComponent<TimerManager>();
+
+
         DancerBodyModel = new Kinect.Body[1];
         //openPosFile();
 
@@ -126,21 +130,20 @@ public class BodySourceView : MonoBehaviour
         //CreateBodyObjectDancer(x);
     }
 
+    private void OnDestroy()
+    {
+        Debug.Log("Starting Print");
+        PrintOutput();
+
+    }
     void Update()
     {
 
 
-        
-        
-        if(Time.frameCount == 1100)
-        {
-            //PrintOutput();
-        }
-
 
         if (Time.frameCount % 100 == 0)
         {
-            Debug.Log(Time.frameCount);
+            //Debug.Log(Time.frameCount);
             //Debug.Log(moveSwitchArray[2]);
         }
 
@@ -150,7 +153,7 @@ public class BodySourceView : MonoBehaviour
         int firstMove, secondMove, thirdMove, fourthMove;
 
         // 1000 Check for Second Move, 2000 Check for Third Move, 2750 Check for Final MOve
-        if (800 == Time.frameCount | 1600 == Time.frameCount | 2150 == Time.frameCount)
+        if (600 == Time.frameCount | 1400 == Time.frameCount | 1900 == Time.frameCount)
         {
             CheckScore();
         }
@@ -158,20 +161,24 @@ public class BodySourceView : MonoBehaviour
 
 
         //Body[] bodyData = BodySourceManager.GetData();
+
         if (BodySourceManager == null)
         {
+            Debug.Log("BodySourceManagerNull");
             return;
         }
 
         _BodyManager = BodySourceManager.GetComponent<BodySourceManager>();
         if (_BodyManager == null)
         {
+            Debug.Log("BodySourceManagerNull component");
             return;
         }
 
         Kinect.Body[] data = _BodyManager.GetData();
         if (data == null)
         {
+            Debug.Log("BodySourceManager Data Null");
             return;
         }
 
@@ -215,6 +222,8 @@ public class BodySourceView : MonoBehaviour
                     _Bodies[body.TrackingId] = CreateBodyObject(body.TrackingId);
                 }
 
+                Debug.Log("Getting Body");
+
                 RefreshBodyObject(body, _Bodies[body.TrackingId]);
 
                 startFrame = Time.frameCount;
@@ -232,20 +241,28 @@ public class BodySourceView : MonoBehaviour
 
     }
 
+    
     private GameObject CreateBodyObject(ulong id)
     {
         GameObject body = new GameObject("Body:" + id);
 
         for (Kinect.JointType jt = Kinect.JointType.SpineBase; jt <= Kinect.JointType.ThumbRight; jt++)
         {
+
+          
+
             GameObject jointObj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            jointObj.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+           
+
+            //GameObject jointObj = GameObject.Find("Cube");
 
             LineRenderer lr = jointObj.AddComponent<LineRenderer>();
             lr.SetVertexCount(2);
             lr.material = BoneMaterial;
-            lr.SetWidth(0.05f, 0.05f);
+            lr.SetWidth(0.001f, 0.001f);
 
-            jointObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+            jointObj.transform.localScale = new Vector3(0.003f, 0.003f, 0.003f);
             jointObj.name = jt.ToString();
             jointObj.transform.parent = body.transform;
         }
@@ -348,26 +365,26 @@ public class BodySourceView : MonoBehaviour
 
 
             // lines between the joints
-            LineRenderer lr = jointObj.GetComponent<LineRenderer>();
-            //LineRenderer lr2 = jointObjDancer.GetComponent<LineRenderer>();
+            //LineRenderer lr = jointObj.GetComponent<LineRenderer>();
+            ////LineRenderer lr2 = jointObjDancer.GetComponent<LineRenderer>();
 
 
 
-            if (targetJoint.HasValue)
-            {
-                lr.SetPosition(0, jointObj.localPosition);
+            //if (targetJoint.HasValue)
+            //{
+            //    lr.SetPosition(0, jointObj.localPosition);
 
 
-                lr.SetPosition(1, GetVector3FromJoint(targetJoint.Value));
+            //    lr.SetPosition(1, GetVector3FromJoint(targetJoint.Value));
 
 
-                lr.SetColors(GetColorForState(sourceJoint.TrackingState), GetColorForState(targetJoint.Value.TrackingState));
+            //    lr.SetColors(GetColorForState(sourceJoint.TrackingState), GetColorForState(targetJoint.Value.TrackingState));
 
-            }
-            else
-            {
-                lr.enabled = false;
-            }
+            //}
+            //else
+            //{
+            //    lr.enabled = false;
+            //}
         }
 
         // check if current body position matches anything
@@ -596,30 +613,91 @@ public class BodySourceView : MonoBehaviour
         return new Vector3(10, 10, 10);
     }
 
+    string addON;
 
     private void PrintOutput()
     {
 
         //print to the file
-        using (System.IO.StreamWriter file =
-        new System.IO.StreamWriter(@"C:\Users\Justin\Documents\Coordinates.txt", true))
+        Debug.Log("Am i getting here?");
+
+        addON = GetLetter();
+        string filePath = GetBonePath();
+        filePath = filePath + addON;
+
+        StreamWriter writer = new StreamWriter(filePath);
+
+
+        //writer.WriteLine("Dancer #" + timeManager.dancerNumber.ToString());
+        writer.WriteLine("!");
+
+        writer.Flush();
+        //This closes the file
+        writer.Close();
+
+
+        //string filePathRotations = GetPath();
+
+        //using (System.IO.StreamWriter file =
+        //new System.IO.StreamWriter(@"C:\Users\Justin\Documents\Coordinates.txt", true))
+        //{
+        //    foreach (var outputline in outputList)
+        //    {
+        //        file.WriteLine(outputline);
+        //    }
+        //}
+
+        using (StreamWriter writer2 = File.AppendText(filePath))
         {
             foreach (var outputline in outputList)
             {
-                file.WriteLine(outputline);
+                writer2.WriteLine(outputline);
             }
+
+            //write ti file
+            writer2.Flush();
+
+            //This closes the file
+            writer2.Close();
         }
 
 
-        //print to the file
-        using (System.IO.StreamWriter file =
-        new System.IO.StreamWriter(@"C:\Users\Justin\Documents\Rotations.txt", true))
+        filePath = GetRotationPath();
+        filePath = filePath + addON;
+
+        Debug.Log("made it here");
+
+        StreamWriter writer3 = new StreamWriter(filePath);
+
+        writer3.WriteLine("!");
+
+        writer3.Flush();
+
+        writer3.Close();
+
+        using (StreamWriter writer4 = File.AppendText(filePath))
         {
             foreach (var outputline in outputList2)
             {
-                file.WriteLine(outputline);
+                writer4.WriteLine(outputline);
             }
+
+            //write ti file
+            writer4.Flush();
+
+            //This closes the file
+            writer4.Close();
         }
+
+        //    //print to the file
+        //    using (System.IO.StreamWriter file =
+        //new System.IO.StreamWriter(@"C:\Users\Justin\Documents\Rotations.txt", true))
+        //{
+        //    foreach (var outputline in outputList2)
+        //    {
+        //        file.WriteLine(outputline);
+        //    }
+        //}
 
 
     }
@@ -1129,7 +1207,44 @@ public class BodySourceView : MonoBehaviour
     }
 
 
+    private string GetBonePath()
+    {
+        //return Application.dataPath + "/CSV/" + "Dance_Results.csv";
+        //string newPath = "Bone_Results#" + timeManager.dancerNumber.ToString() + ".txt";
+        string newPath = "Bone_Results#";
 
+        return newPath;
+
+    }
+
+    private string GetRotationPath()
+    {
+        //return Application.dataPath + "/CSV/" + "Dance_Results.csv";
+        //string newPath = "Bone_Results#" + timeManager.dancerNumber.ToString() + ".txt";
+        string newPath = "Rotation_Results#";
+
+        return newPath;
+
+    }
+
+    private static string GetLetter()
+    {
+        int num = random.Next(0, 26);
+        char let = (char)('a' + num);
+
+        num = random.Next(0, 26);
+        char let2 = (char)('a' + num);
+
+        num = random.Next(0, 26);
+        char let3 = (char)('a' + num);
+
+        num = random.Next(0, 10);
+
+
+
+        return let + num.ToString() + let2 + let3 + ".txt";
+
+    }
 
 
 

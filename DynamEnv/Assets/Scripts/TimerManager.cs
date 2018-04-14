@@ -8,6 +8,7 @@ public class TimerManager : MonoBehaviour {
 	private Camera mainCam;
 	public float danceSeconds = 15f;
     public bool danceDone = false;
+    public int dancerNumber = 0;
 
 
 	// Use this for initialization
@@ -21,6 +22,7 @@ public class TimerManager : MonoBehaviour {
 		StartCoroutine (FadeOut (mainCam.GetComponent<AudioSource>(), 7f));
 		Invoke ("fadeout", 7f);
         danceDone = true;
+        dancerNumber++;
 	}
 
 	void fadeout(){
